@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<carriers>
+			<melhorenvio>
+				<model>MelhorEnvio\Quote\Model\Carrier\MelhorEnvio</model>
+				<active>0</active>
+				<title>via Melhor Envio</title>
+				<name>Melhor Envio</name>
+				<sandbox>1</sandbox>
+				<sallowspecific>0</sallowspecific>
+				<log>1</log>
+				<quote>
+					<safe>0</safe>
+					<receipt>0</receipt>
+					<collect>0</collect>
+					<own_hand>0</own_hand>
+					<discount>0</discount>
+					<tax>0</tax>
+					<additional_day>0</additional_day>
+				</quote>
+				<from>
+					<is_company>0</is_company>
+				</from>
+			</melhorenvio>
+		</carriers>
+	</default>
+</config>

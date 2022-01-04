@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+		<resources>
+			<resource id="Magento_Backend::admin">
+				<resource id="MelhorEnvio_Quote::Quote" sortOrder="10" title="Quote">
+					<resource id="MelhorEnvio_Quote::Quote_save" sortOrder="10" title="Save Quote"/>
+					<resource id="MelhorEnvio_Quote::Quote_delete" sortOrder="20" title="Delete Quote"/>
+					<resource id="MelhorEnvio_Quote::Quote_update" sortOrder="30" title="Update Quote"/>
+					<resource id="MelhorEnvio_Quote::Quote_view" sortOrder="40" title="View Quote"/>
+				</resource>
+			</resource>
+		</resources>
+	</acl>
+</config>

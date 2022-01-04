@@ -1,0 +1,203 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">melhorenvio_quote_quote_listing.melhorenvio_quote_quote_listing_data_source</item>
+            <item name="deps" xsi:type="string">melhorenvio_quote_quote_listing.melhorenvio_quote_quote_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">melhorenvio_quote_quote_columns</item>
+    </argument>
+    <dataSource component="Magento_Ui/js/grid/provider" name="melhorenvio_quote_quote_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">
+                Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
+            </argument>
+            <argument name="name" xsi:type="string">melhorenvio_quote_quote_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">quote_id</argument>
+            <argument name="requestFieldName" xsi:type="string">quote_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">quote_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <action name="add_to_cart">
+                <settings>
+                    <url path="melhorenvio_quote/quote/massAddToCart"/>
+                    <type>add_to_cart</type>
+                    <label translate="true">Adicionar ao Carrinho</label>
+                </settings>
+            </action>
+            <action name="remove_to_cart">
+                <settings>
+                    <url path="melhorenvio_quote/quote/massRemoveToCart"/>
+                    <type>remove_to_cart</type>
+                    <label translate="true">Remover do Carrinho</label>
+                </settings>
+            </action>
+            <action name="tag_preview">
+                <settings>
+                    <url path="melhorenvio_quote/quote/massTagPreview"/>
+                    <type>tag_preview</type>
+                    <label translate="true">Visualizar Etiquetas</label>
+                </settings>
+            </action>
+            <action name="tag_generate">
+                <settings>
+                    <url path="melhorenvio_quote/quote/massTagGenerate"/>
+                    <type>tag_generate</type>
+                    <label translate="true">Gerar Etiquetas</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="melhorenvio_quote_quote_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>quote_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="quote_id" sortOrder="1">
+            <settings>
+                <sorting>desc</sorting>
+                <filter>text</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+        <column name="status">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="array">
+                    <item name="new" xsi:type="array">
+                        <item name="value" xsi:type="string">new</item>
+                        <item name="label" xsi:type="string" translate="true">Novo</item>
+                    </item>
+                    <item name="pending" xsi:type="array">
+                        <item name="value" xsi:type="string">pending</item>
+                        <item name="label" xsi:type="string" translate="true">Carrinho</item>
+                    </item>
+                    <item name="paid" xsi:type="array">
+                        <item name="value" xsi:type="string">paid</item>
+                        <item name="label" xsi:type="string" translate="true">Pago</item>
+                    </item>
+                    <item name="released" xsi:type="array">
+                        <item name="value" xsi:type="string">released</item>
+                        <item name="label" xsi:type="string" translate="true">Liberado</item>
+                    </item>
+                    <item name="posted" xsi:type="array">
+                        <item name="value" xsi:type="string">posted</item>
+                        <item name="label" xsi:type="string" translate="true">Postado</item>
+                    </item>
+                    <item name="delivered" xsi:type="array">
+                        <item name="value" xsi:type="string">delivered</item>
+                        <item name="label" xsi:type="string" translate="true">Entregue</item>
+                    </item>
+                    <item name="undelivered" xsi:type="array">
+                        <item name="value" xsi:type="string">undelivered</item>
+                        <item name="label" xsi:type="string" translate="true">Não Entregue</item>
+                    </item>
+                    <item name="canceled" xsi:type="array">
+                        <item name="value" xsi:type="string">canceled</item>
+                        <item name="label" xsi:type="string" translate="true">Cancelado</item>
+                    </item>
+                    <item name="closed" xsi:type="array">
+                        <item name="value" xsi:type="string">closed</item>
+                        <item name="label" xsi:type="string" translate="true">Finalizado</item>
+                    </item>
+                </item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Situação</item>
+                </item>
+            </argument>
+            <settings>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="cost" class="MelhorEnvio\Quote\Ui\Component\Listing\Column\QuotePrice" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <sortable>false</sortable>
+                <label translate="true">Valor Cotado</label>
+                <filter>false</filter>
+            </settings>
+        </column>
+        <column name="order_increment_id" component="Magento_Ui/js/grid/columns/link" class="MelhorEnvio\Quote\Ui\Component\Listing\Column\QuoteParentId" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="link" xsi:type="string">parent_link</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Pedido</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="description" class="MelhorEnvio\Quote\Ui\Component\Listing\Column\QuoteDescription" sortOrder="50">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Serviço</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="validate" sortOrder="60">
+            <settings>
+                <label translate="true">Expira em</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="protocol" class="MelhorEnvio\Quote\Ui\Component\Listing\Column\Protocol" sortOrder="70">
+            <settings>
+                <label translate="true">Códigos de Envios</label>
+                <sortable>false</sortable>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="tracking" component="Magento_Ui/js/grid/columns/link" class="MelhorEnvio\Quote\Ui\Component\Listing\Column\QuoteTracking" sortOrder="80">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="link" xsi:type="string">tracking_link</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Rastreio</label>
+                <sortable>false</sortable>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="900">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <sortable>false</sortable>
+                <label translate="true">Criado em</label>
+            </settings>
+        </column>
+        <actionsColumn class="MelhorEnvio\Quote\Ui\Component\Listing\Column\QuoteActions" name="actions" sortOrder="1000">
+            <settings>
+                <label>Ações</label>
+                <indexField>quote_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>130</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+
+    </columns>
+</listing>
