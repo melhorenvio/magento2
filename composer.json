@@ -1,0 +1,25 @@
+{
+    "name": "melhorenvio/quote",
+    "description": "Módulo para cotação de frete da Melhor Envio",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "contato@trezo.com.br",
+            "name": "Trezo"
+        }
+    ],
+    "minimum-stability": "dev",
+    "version": "1.0.0",
+    "require": {
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MelhorEnvio\\Quote\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

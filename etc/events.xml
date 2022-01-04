@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_before">
+        <observer name="melhorenvio_update_shipping_info_before_save_order"
+                  instance="MelhorEnvio\Quote\Observer\Sales\OrderSaveBefore" />
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="melhorenvio_sales_save_after"
+                  instance="MelhorEnvio\Quote\Observer\Sales\OrderSaveAfter" />
+    </event>
+    <event name="order_cancel_after">
+        <observer name="melhorenvio_order_cancel_after"
+                  instance="MelhorEnvio\Quote\Observer\Sales\OrderCancelAfter" />
+    </event>
+</config>

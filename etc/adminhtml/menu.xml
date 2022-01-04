@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="MelhorEnvio::top_level"
+			 module="MelhorEnvio_Quote"
+			 resource="Magento_Backend::content"
+			 sortOrder="19"
+			 title="Melhor Envio"
+		/>
+		<add id="MelhorEnvio_Quote::quote"
+			 module="MelhorEnvio_Quote"
+			 parent="MelhorEnvio::top_level"
+			 action="melhorenvio_quote/quote/index"
+			 resource="Magento_Backend::content"
+			 sortOrder="10"
+			 title="Envios"
+		/>
+		<add id="MelhorEnvio_Quote::configuration"
+			 module="MelhorEnvio_Quote"
+			 parent="MelhorEnvio::top_level"
+			 action="adminhtml/system_config/edit/section/carriers"
+			 resource="Magento_Backend::content"
+			 sortOrder="99"
+			 title="Configuração"
+		/>
+		<!--<add id="MelhorEnvio_Quote::Store"
+			 title="Stores"
+			 module="MelhorEnvio_Quote"
+			 sortOrder="80"
+			 resource="Magento_Backend::content"
+			 parent="MelhorEnvio::top_level"
+			 action="melhorenvio_quote/store/index"
+		/>-->
+	</menu>
+</config>

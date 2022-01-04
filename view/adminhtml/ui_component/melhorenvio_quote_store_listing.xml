@@ -1,0 +1,200 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">melhorenvio_quote_store_listing.melhorenvio_quote_store_listing_data_source</item>
+		</item>
+	</argument>
+	<settings>
+		<spinner>melhorenvio_quote_store_columns</spinner>
+		<deps>
+			<dep>melhorenvio_quote_store_listing.melhorenvio_quote_store_listing_data_source</dep>
+		</deps>
+	</settings>
+	<dataSource component="Magento_Ui/js/grid/provider" name="melhorenvio_quote_store_listing_data_source">
+		<settings>
+			<updateUrl path="mui/index/render"/>
+		</settings>
+		<aclResource>MelhorEnvio_Quote::Store</aclResource>
+		<dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="melhorenvio_quote_store_listing_data_source">
+			<settings>
+				<requestFieldName>id</requestFieldName>
+				<primaryFieldName>melhor_store_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<listingToolbar name="listing_top">
+		<settings>
+			<sticky>true</sticky>
+		</settings>
+		<bookmark name="bookmarks"/>
+		<columnsControls name="columns_controls"/>
+		<filters name="listing_filters"/>
+		<paging name="listing_paging"/>
+		<!--<massaction name="listing_massaction">
+			<action name="add_to_cart">
+				<settings>
+					<url path="melhorenvio_quote/quote/massAddToCart"/>
+					<type>add_to_cart</type>
+					<label translate="true">Adicionar ao Carrinho</label>
+				</settings>
+			</action>
+			<action name="remove_to_cart">
+				<settings>
+					<url path="melhorenvio_quote/quote/massRemoveToCart"/>
+					<type>remove_to_cart</type>
+					<label translate="true">Remover do Carrinho</label>
+				</settings>
+			</action>
+			<action name="tag_preview">
+				<settings>
+					<url path="melhorenvio_quote/quote/massTagPreview"/>
+					<type>tag_preview</type>
+					<label translate="true">Visualizar Etiquetas</label>
+				</settings>
+			</action>
+			<action name="tag_generate">
+				<settings>
+					<url path="melhorenvio_quote/quote/massTagGenerate"/>
+					<type>tag_generate</type>
+					<label translate="true">Gerar Etiquetas</label>
+				</settings>
+			</action>
+		</massaction>-->
+	</listingToolbar>
+	<columns name="melhorenvio_quote_store_columns">
+		<selectionsColumn name="ids">
+			<settings>
+				<indexField>melhor_store_id</indexField>
+			</settings>
+		</selectionsColumn>
+
+		<column name="melhor_store_name">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">Name</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_postcode">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">Postcode</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_street">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">Street</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_number">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">Number</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_complement">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">Complement</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_district">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">District</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_city">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">City</item>
+				</item>
+			</argument>
+		</column>
+		<column name="melhor_store_state">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="editor" xsi:type="array">
+						<item name="editorType" xsi:type="string">text</item>
+						<item name="validation" xsi:type="array">
+							<item name="required-entry" xsi:type="boolean">true</item>
+						</item>
+					</item>
+					<item name="label" xsi:type="string" translate="true">State</item>
+				</item>
+			</argument>
+		</column>
+		<column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="900">
+			<settings>
+				<filter>dateRange</filter>
+				<dataType>date</dataType>
+				<label translate="true">Criado em</label>
+			</settings>
+		</column>
+		<actionsColumn name="actions" class="MelhorEnvio\Quote\Ui\Component\Listing\Column\StoreActions">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="indexField" xsi:type="string">melhor_store_id</item>
+				</item>
+			</argument>
+		</actionsColumn>
+	</columns>
+</listing>
