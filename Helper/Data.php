@@ -12,7 +12,7 @@ use MelhorEnvio\Quote\Model\Carrier\MelhorEnvio;
  * Class Data
  * @package MelhorEnvio\Quote\Helper
  */
-final class Data extends AbstractHelper
+class Data extends AbstractHelper
 {
     /**
      * @return bool

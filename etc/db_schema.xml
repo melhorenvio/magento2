@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="melhorenvio_quote" resource="default" engine="innodb" comment="About Your Table">
+        <column xsi:type="int" name="quote_id" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="decimal" name="cost" precision="10" scale="2" nullable="false" comment="Cost"/>
+        <column xsi:type="varchar" name="order_id" length="255" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="order_increment_id" length="255" nullable="false" comment="Order Increment ID"/>
+        <column xsi:type="varchar" name="description" length="255" nullable="true" comment="Description"/>
+        <column xsi:type="int" name="service" nullable="false" identity="false" comment="Service"/>
+        <column xsi:type="varchar" name="status" length="20" nullable="true" comment="Status"/>
+        <column xsi:type="varchar" name="nf_key" length="255" nullable="true" comment="NF Key"/>
+        <column xsi:type="varchar" name="validate" length="11" nullable="true" comment="Validate"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <column xsi:type="text" name="additional_data" nullable="true" comment="Additional Data"/>
+        <column xsi:type="int" name="quote_reverse" nullable="true" default="0" comment="Quote Reverse"/>
+        <column xsi:type="varchar" name="origin" length="10" nullable="true" comment="Quote Origin"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="quote_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNIQUE">
+            <column name="quote_id"/>
+        </constraint>
+    </table>
+    <table name="melhorenvio_package" resource="default" engine="innodb" comment="Melhor Envio Package">
+        <column xsi:type="int" name="id" identity="true" nullable="false" comment="ID"/>
+        <column xsi:type="int" name="quote_id" nullable="false" comment="Quote Id"/>
+        <column xsi:type="text" name="packages" nullable="true" comment="Packages"/>
+        <column xsi:type="varchar" name="code" length="255" nullable="true" comment="Code"/>
+        <column xsi:type="varchar" name="tracking" length="20" nullable="true" comment="Tracking"/>
+        <column xsi:type="varchar" name="protocol" length="50" nullable="true" comment="Protocol"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNIQUE">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MELHORENVIO_PACKAGE_QUOTE_ID_MELHORENVIO_QUOTE_QUOTE_ID" 
+            table="melhorenvio_package" column="quote_id" 
+            referenceTable="melhorenvio_quote" referenceColumn="quote_id" onDelete="CASCADE"/>
+    </table>
+    <table name="sales_order" resource="default" engine="innodb" >
+        <column xsi:type="text" name="melhorenvio_shipping" nullable="true" comment="Melhor Envio Shipping"/>
+    </table>
+    <table name="melhor_store" resource="default" engine="innodb" comment="Melhor Envio Stores">
+        <column xsi:type="int" name="melhor_store_id" unsigned="true" nullable="false" identity="true" comment="Store ID"/>
+        <column xsi:type="varchar" name="melhor_store_name" length="255" nullable="false" comment="Store Name"/>
+        <column xsi:type="varchar" name="melhor_store_postcode" length="255" comment="Postcode"/>
+        <column xsi:type="text" name="melhor_store_street" comment="Street"/>
+        <column xsi:type="varchar" name="melhor_store_number" length="20" comment="Number"/>
+        <column xsi:type="varchar" name="melhor_store_complement" length="255" comment="Complement"/>
+        <column xsi:type="varchar" name="melhor_store_district" length="255" comment="District"/>
+        <column xsi:type="varchar" name="melhor_store_city" length="255" comment="City"/>
+        <column xsi:type="varchar" name="melhor_store_state" length="255" comment="State"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="melhor_store_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNIQUE">
+            <column name="melhor_store_id"/>
+        </constraint>
+        <index referenceId="FTI_F225255203FF0A757C2AA3F884FEA1EC" indexType="fulltext">
+            <column name="melhor_store_name"/>
+            <column name="melhor_store_postcode"/>
+            <column name="melhor_store_city"/>
+            <column name="melhor_store_state"/>
+            <column name="melhor_store_district"/>
+        </index>
+    </table>
+
+</schema>

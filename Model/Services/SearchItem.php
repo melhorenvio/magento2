@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class SearchItem
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class SearchItem extends AbstractService implements ServiceInterface
+class SearchItem extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class Cancel
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class Cancel extends AbstractService implements ServiceInterface
+class Cancel extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

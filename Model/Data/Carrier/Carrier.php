@@ -10,7 +10,7 @@ use MelhorEnvio\Quote\Api\Data\CarrierInterface;
  * Class Carrier
  * @package MelhorEnvio\Quote\Model\Data\Carrier
  */
-final class Carrier extends DataObject implements CarrierInterface
+class Carrier extends DataObject implements CarrierInterface
 {
     /**
      * @inheritDoc

@@ -11,6 +11,10 @@
     <preference for="MelhorEnvio\Quote\Api\Data\PackageInterface" type="MelhorEnvio\Quote\Model\Data\Package"/>
     <preference for="MelhorEnvio\Quote\Api\Data\PackageSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 
+    <preference for="MelhorEnvio\Quote\Api\InventoryReservationRepositoryInterface" type="MelhorEnvio\Quote\Model\InventoryReservationRepository"/>
+    <preference for="MelhorEnvio\Quote\Api\Data\InventoryReservationInterface" type="MelhorEnvio\Quote\Model\InventoryReservation"/>
+    <preference for="MelhorEnvio\Quote\Api\Data\InventoryReservationSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+
     <preference for="MelhorEnvio\Quote\Api\HttpClientInterface" type="MelhorEnvio\Quote\Model\Services\Client\ZendClient"/>
     <preference for="MelhorEnvio\Quote\Api\Data\HttpResponseInterface" type="MelhorEnvio\Quote\Model\Data\Http\Response"/>
     <preference for="MelhorEnvio\Quote\Api\Data\CarrierCompanyInterface" type="MelhorEnvio\Quote\Model\Data\Carrier\Company"/>
@@ -69,5 +73,12 @@
             <argument name="resourceModel" xsi:type="string">MelhorEnvio\Quote\Model\Store\ResourceModel\Grid</argument>
         </arguments>
     </virtualType>
+
+    <!-- Proxy -->
+    <type name="MelhorEnvio\Quote\Observer\Sales\OrderSaveBefore">
+    <arguments>
+        <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+    </arguments>
+    </type>
 
 </config>

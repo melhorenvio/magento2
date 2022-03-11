@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class Companies
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class Companies extends AbstractService implements ServiceInterface
+class Companies extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

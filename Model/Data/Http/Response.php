@@ -9,7 +9,7 @@ use MelhorEnvio\Quote\Api\Data\HttpResponseInterface;
  * Class Response
  * @package MelhorEnvio\Quote\Model\Data\Http
  */
-final class Response extends DataObject implements HttpResponseInterface
+class Response extends DataObject implements HttpResponseInterface
 {
     /**
      * @inheritDoc

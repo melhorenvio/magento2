@@ -32,7 +32,7 @@ class TokenExp implements MessageInterface
      */
     public function getIdentity()
     {
-        return md5('melhorenvio_quote_token_exp');
+        return hash('sha256', 'melhorenvio_quote_token_exp');
     }
 
     /**
@@ -44,16 +44,22 @@ class TokenExp implements MessageInterface
             return false;
         }
 
-        $payload = json_decode(base64_decode(explode('.', $this->helperData->getToken())[1]), true);
-        $timestamp = $payload['exp'];
-        $expDate = new DateTime();
-        $expDate->setTimestamp($timestamp);
+        if(isset(explode('.', $this->helperData->getToken())[1])){
 
-        $current = new DateTime('now');
+            $payload = json_decode(base64_decode(explode('.', $this->helperData->getToken())[1]), true);
+            $timestamp = $payload['exp'];
+            $expDate = new DateTime();
+            $expDate->setTimestamp($timestamp);
+            
+            $current = new DateTime('now');
+            
+            $interval = $current->diff($expDate);
+            
+            return (bool) ($interval->days > 1 && $interval->days < 30);
 
-        $interval = $current->diff($expDate);
-
-        return (bool) ($interval->days > 1 && $interval->days < 30);
+        }else{
+            return false;
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class Cart
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class Cart extends AbstractService implements ServiceInterface
+class Cart extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

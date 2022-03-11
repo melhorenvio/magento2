@@ -205,7 +205,7 @@ class PackageManagement implements PackageManagementInterface
         $data = $response->getBodyArray();
 
         if ($response->getCode() != 200) {
-            return $this->redirectWithError(__($data['message']));
+            return $this->redirectWithError(__(json_encode($data)));
         }
 
         $data = reset($data);
@@ -275,7 +275,7 @@ class PackageManagement implements PackageManagementInterface
                 return $this->redirectWithError(__($data['message']));
             }
 
-            $this->redirectWithError(__('Não foi possível cancelar o frete'));
+            $this->redirectWithError(__('Não foi possível cancelar o fretea'));
         }
 
         $data = reset($data);
