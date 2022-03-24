@@ -1,6 +1,6 @@
 {
-    "name": "melhorenvio/quote",
-    "description": "Módulo para cotação de frete da Melhor Envio",
+    "name": "melhorenvio/magento2",
+    "description": "Módulo para gestão de frete do Melhor Envio",
     "type": "magento2-module",
     "license": "proprietary",
     "authors": [
