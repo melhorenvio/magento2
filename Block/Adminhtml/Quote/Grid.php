@@ -97,12 +97,14 @@ class Grid extends Container
             'options' => $this->getCartOptions(),
         ];
 
-        if ($this->cartInfo['total'] < 1) {
-            unset($cartButtonOptions['class_name']);
-            unset($cartButtonOptions['options']);
+        // if ($this->cartInfo['total'] < 1) {
+        //     unset($cartButtonOptions['class_name']);
+        //     unset($cartButtonOptions['options']);
+        // }
+        
+        if($this->cartInfo['total'] > 0){
+            $this->buttonList->add('melhorenvio_quote_cart', $cartButtonOptions);
         }
-
-        $this->buttonList->add('melhorenvio_quote_cart', $cartButtonOptions);
 
         if ($this->cartInfo['total']) {
             $this->buttonList->add('melhorenvio_quote_checkout', [

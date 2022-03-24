@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class RemoveToCart
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class RemoveToCart extends AbstractService implements ServiceInterface
+class RemoveToCart extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

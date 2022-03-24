@@ -4,7 +4,7 @@ namespace MelhorEnvio\Quote\Ui\Component\Listing\Column;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
-use Magento\Sales\Model\Order;
+use Magento\Sales\Model\OrderFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
@@ -15,21 +15,21 @@ class QuoteTracking extends Column
 {
     protected $urlBuilder;
     /**
-     * @var Order
+     * @var OrderFactory
      */
     private $order;
 
     /**
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
-     * @param Order $order
+     * @param OrderFactory $order
      * @param array $components
      * @param array $data
      */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
-        Order $order,
+        OrderFactory $order,
         array $components = [],
         array $data = []
     ) {
@@ -47,8 +47,10 @@ class QuoteTracking extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as $key => $item) {
-                $order = $this->order->loadByIncrementId($item['order_increment_id']);
-                foreach($order->getTracksCollection() as $track){
+                $order = $this->order->create()->loadByIncrementId($item['order_increment_id']);
+                $trackCollection = $order->getTracksCollection();
+                $trackItems = $trackCollection->getItems();
+                foreach($trackItems as $track){
                     $dataSource['data']['items'][$key]['tracking'] = $track->getTrackNumber();
                     $dataSource['data']['items'][$key]['tracking_link'] = 'https://www.melhorrastreio.com.br/rastreio/' . $track->getTrackNumber();
                 }

@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class Balance
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class Balance extends AbstractService implements ServiceInterface
+class Balance extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

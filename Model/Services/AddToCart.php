@@ -12,7 +12,7 @@ use Magento\Framework\Model\AbstractModel;
  * Class AddToCart
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class AddToCart extends AbstractService implements ServiceInterface
+class AddToCart extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

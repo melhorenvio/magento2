@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class ShippingCalculate
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class ShippingCalculate extends AbstractService implements ServiceInterface
+class ShippingCalculate extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

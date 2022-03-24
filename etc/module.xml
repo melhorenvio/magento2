@@ -4,6 +4,7 @@
 	<module name="MelhorEnvio_Quote" setup_version="1.0.3">
 		<sequence>
 			<module name="Magento_Quote" />
+			<module name="Magento_Sales"/>
 		</sequence>
 	</module>
 </config>
