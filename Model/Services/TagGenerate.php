@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class TagGenerate
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class TagGenerate extends AbstractService implements ServiceInterface
+class TagGenerate extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

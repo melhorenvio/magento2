@@ -32,7 +32,7 @@ class TokenInvalid implements MessageInterface
      */
     public function getIdentity()
     {
-        return md5('melhorenvio_quote_token_invalid');
+        return hash('sha256', 'melhorenvio_quote_token_invalid');
     }
 
     /**
@@ -44,16 +44,22 @@ class TokenInvalid implements MessageInterface
             return false;
         }
 
-        $payload = json_decode(base64_decode(explode('.', $this->helperData->getToken())[1]), true);
-        $timestamp = $payload['exp'];
-        $expDate = new DateTime();
-        $expDate->setTimestamp($timestamp);
+        if(isset(explode('.', $this->helperData->getToken())[1])){
 
-        $current = new DateTime('now');
+            $payload = json_decode(base64_decode(explode('.', $this->helperData->getToken())[1]), true);
+            $timestamp = $payload['exp'];
+            $expDate = new DateTime();
+            $expDate->setTimestamp($timestamp);
 
-        $interval = $current->diff($expDate);
+            $current = new DateTime('now');
 
-        return (bool) $interval->days < 1;
+            $interval = $current->diff($expDate);
+
+            return (bool) $interval->days < 1;
+
+        }else{
+            return false;
+        }
     }
 
     /**

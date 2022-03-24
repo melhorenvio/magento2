@@ -123,10 +123,10 @@ class CheckToUpdates
                 $packageCollection = $this->packageRepository->getListByParentShippingId($item->getQuoteId());
                 foreach ($packageCollection->getItems() as $package) {
                     $packageCode = $package->getCode();
-                }
-                $currentData = $this->getRemoteData($packageCode);
-                if (empty($currentData)) {
-                    $this->handleRemoveToCart($item->getId());
+                    $currentData = $this->getRemoteData($packageCode);
+                    if (empty($currentData)) {
+                        $this->handleRemoveToCart($item->getId());
+                    }
                 }
             } catch (LocalizedException $e) {
                 $this->handleRemoveToCart($item->getId());
@@ -161,7 +161,10 @@ class CheckToUpdates
                 continue;
             }
 
+
             $this->updateItem($item->getQuoteId(), $currentData);
+
+
 
             if ($currentData['self_tracking']) {
                 $this->handleTrackingCode(
@@ -321,8 +324,6 @@ class CheckToUpdates
             $shipment->getOrder()->save();
 
             $this->shipmentNotifier->notify($shipment);
-
-            $shipment->save();
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             return;

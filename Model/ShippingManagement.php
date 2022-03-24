@@ -425,7 +425,7 @@ class ShippingManagement implements ShippingManagementInterface
             $shipping->setStatus(QuoteInterface::STATUS_CANCELED);
             $this->quoteRepository->save($shipping);
         } catch (LocalizedException $e) {
-            throw new LocalizedException(__('Não foi possível cancelar o frete'));
+            throw new LocalizedException(__('Não foi possível cancelar o fretec'));
         }
 
         return;

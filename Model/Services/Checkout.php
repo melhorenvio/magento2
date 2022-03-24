@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class Checkout
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class Checkout extends AbstractService implements ServiceInterface
+class Checkout extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc

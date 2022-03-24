@@ -130,7 +130,8 @@ class QuoteActions extends Column
                             'href' => $this->urlBuilder->getUrl(
                                 'melhorenvio_quote/quote/cancel',
                                 [
-                                    'quote_id' => $item['quote_id']
+                                    'quote_id' => $item['quote_id'],
+                                    'order_id' => $item['order_id']
                                 ]
                             ),
                             'label' => __('Cancelar'),

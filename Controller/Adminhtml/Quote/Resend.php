@@ -68,6 +68,9 @@ class Resend extends BaseController
 
         try {
             $order = $this->orderRepository->get($origQuote->getOrderId());
+            foreach ($order->getShipmentsCollection() as $shipment){
+                $shipment->delete();
+            }
             $quoteReverse = 0;
             $this->shippingManagement->createShippingFromOrderResend($order,$quoteReverse);
         } catch (LocalizedException $e) {

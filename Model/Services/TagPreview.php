@@ -11,7 +11,7 @@ use Zend_Http_Client;
  * Class TagPreview
  * @package MelhorEnvio\Quote\Model\Services
  */
-final class TagPreview extends AbstractService implements ServiceInterface
+class TagPreview extends AbstractService implements ServiceInterface
 {
     /**
      * @inheritDoc
