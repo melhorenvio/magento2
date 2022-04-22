@@ -221,7 +221,8 @@ class DataProvider implements DataProviderInterface
         $order = $this->getParentOrder();
         $shippingAddress = $this->getShippingAddress();
         $streetArr = $shippingAddress->getStreet();
-        $cpfCnpj = preg_replace("/[^0-9]/", '', $order->getCustomerTaxvat());
+        $cpfCnpj = $order->getCustomerTaxvat() ?? $order->getBillingAddress()->getVatId();
+        $cpfCnpj = preg_replace("/[^0-9]/", '', $cpfCnpj);
         $data = [
             'name' => sprintf('%s %s', $shippingAddress->getFirstname(), $shippingAddress->getLastname()),
             'phone' => $shippingAddress->getTelephone(),
