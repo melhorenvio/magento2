@@ -37,7 +37,7 @@ class Logger extends \Monolog\Logger implements LoggerInterface
      * @param array $context
      * @return bool
      */
-    public function addRecord(int $level, string $message, array $context = []): bool
+    public function addRecord($level, $message, array $context = [])
     {
         if (!$this->helperData->generateLog()) {
             return true;
