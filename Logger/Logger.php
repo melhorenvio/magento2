@@ -30,19 +30,4 @@ class Logger extends \Monolog\Logger implements LoggerInterface
         parent::__construct('melhorenvio', $handlers, $processors);
         $this->helperData = $helperData;
     }
-
-    /**
-     * @param int $level
-     * @param string $message
-     * @param array $context
-     * @return bool
-     */
-    public function addRecord(int $level, string $message, array $context = []): bool
-    {
-        if (!$this->helperData->generateLog()) {
-            return true;
-        }
-
-        return parent::addRecord($level, $message, $context);
-    }
 }
