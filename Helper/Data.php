@@ -213,7 +213,7 @@ class Data extends AbstractHelper
                     'Authorization' => sprintf('Bearer %s', $this->getToken())
                 ]
             ]);
-            return json_decode($result->getBody()->getContents());
+            return json_decode($result->getBody()->getContents() ?? '');
         } catch (GuzzleException $e) {
             throw new Exception($e->getMessage());
         }

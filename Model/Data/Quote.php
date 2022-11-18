@@ -200,12 +200,12 @@ class Quote extends AbstractExtensibleObject implements QuoteInterface
      */
     public function appendAdditionalData(array $data = [])
     {
-        $origData = json_decode($this->getAdditionalData(), true);
+        $origData = json_decode($this->getAdditionalData() ?? '', true);
         if (is_array($origData)) {
             $data = array_merge($origData, $data);
         }
 
-        return $this->setAdditionalData(json_encode($data));
+        return $this->setAdditionalData(json_encode($data ?? ''));
     }
 
     /**
