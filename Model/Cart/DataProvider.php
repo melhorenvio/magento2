@@ -299,7 +299,7 @@ class DataProvider implements DataProviderInterface
             return $items;
         }
 
-        $package = json_decode($this->package->getPackages(), true);
+        $package = json_decode($this->package->getPackages() ?? '', true);
         foreach ($package['products'] as $itemPkg) {
             foreach ($this->getParentOrder()->getItems() as $item) {
                 if ($itemPkg['id'] == $item->getProductId()) {
@@ -374,7 +374,7 @@ class DataProvider implements DataProviderInterface
      */
     private function getPackageData(): array
     {
-        $data = json_decode($this->package->getPackages(), true);
+        $data = json_decode($this->package->getPackages() ?? '', true);
 
         return is_array($data) ? $data : [];
     }
