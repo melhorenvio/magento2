@@ -3,15 +3,15 @@
 namespace MelhorEnvio\Quote\Model\Services\Client;
 
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\HTTP\ZendClientFactory;
+//use Magento\Framework\HTTP\ZendClientFactory;
 use MelhorEnvio\Quote\Api\Data\HttpResponseInterface;
 use MelhorEnvio\Quote\Api\LoggerInterface;
 use MelhorEnvio\Quote\Api\ServiceInterface;
 use MelhorEnvio\Quote\Api\HttpClientInterface;
 use MelhorEnvio\Quote\Model\Data\Http\ResponseFactory;
-use Zend_Http_Client;
 use Zend_Http_Client_Exception;
-
+use Magento\Framework\HTTP\ClientFactory as ZendClientFactory;
+use Laminas\Http\Client as LaminasClient;
 /**
  * Class ZendClient
  * @package MelhorEnvio\Quote\Model\Services\Client
@@ -30,6 +30,8 @@ class ZendClient implements HttpClientInterface
      * @var LoggerInterface
      */
     private $logger;
+    
+    private $laminasClient;
 
     /**
      * ZendClient constructor.
@@ -41,12 +43,14 @@ class ZendClient implements HttpClientInterface
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         ZendClientFactory $zendClientFactory,
         ResponseFactory $httpResponseFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        LaminasClient $laminasClient
     ) {
         $this->productMetadata = $productMetadata;
         $this->zendClientFactory = $zendClientFactory;
         $this->httpResponseFactory = $httpResponseFactory;
         $this->logger = $logger;
+        $this->laminasClient = $laminasClient;
     }
 
     /**
@@ -56,12 +60,13 @@ class ZendClient implements HttpClientInterface
      */
     public function doRequest(ServiceInterface $service): HttpResponseInterface
     {
-        if ($service->getMethod() == Zend_Http_Client::DELETE) {
+        if ($service->getMethod() == \Laminas\Http\Request::METHOD_DELETE) {
             return $this->handleMethodDelete($service);
         }
 
         /** @var \Magento\Framework\HTTP\ZendClient $client */
-        $client = $this->zendClientFactory->create();
+        //$client = $this->zendClientFactory->create();
+        $client = $this->laminasClient;
         $headers = $service->getHeaders();
         $headers['User-Agent'] = 'Magento 2/'.$this->productMetadata->getVersion();
 
@@ -72,15 +77,15 @@ class ZendClient implements HttpClientInterface
             $client->setHeaders($service->getHeaders());
 
             if (!empty($service->getData())
-                && $service->getMethod() != Zend_Http_Client::GET
+                && $service->getMethod() != \Laminas\Http\Request::METHOD_GET
             ) {
                 $client->setRawData($this->prepareData($service->getData()));
             }
 
             $this->logger->info($this->getEndpoint($service), [$service->getData()]);
             $this->logger->info('headers', $headers);
-            $result = $client->request();
-        } catch (Zend_Http_Client_Exception $e) {
+            $result = $client->send();
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             throw new LocalizedException(__('Resource temporarily unavailable'));
         }
@@ -88,7 +93,7 @@ class ZendClient implements HttpClientInterface
         $this->logger->info($result->getBody());
 
         return $this->httpResponseFactory->create(['data' => [
-            'code' => $result->getStatus(),
+            'code' => $result->getStatusCode(),
             'body' => $result->getBody(),
             'headers' => $result->getHeaders()
         ]]);
@@ -111,7 +116,7 @@ class ZendClient implements HttpClientInterface
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => Zend_Http_Client::DELETE,
+            CURLOPT_CUSTOMREQUEST => \Laminas\Http\Request::METHOD_DELETE,
             CURLOPT_POSTFIELDS => '',
             CURLOPT_HTTPHEADER => [
                 'User-Agent: Magento 2/'.$this->productMetadata->getVersion(),
@@ -147,7 +152,7 @@ class ZendClient implements HttpClientInterface
      */
     private function getEndpoint(ServiceInterface $service): string
     {
-        if (in_array($service->getMethod(), [Zend_Http_Client::GET, Zend_Http_Client::DELETE])
+        if (in_array($service->getMethod(), [\Laminas\Http\Request::METHOD_GET, \Laminas\Http\Request::METHOD_DELETE])
             && !empty($service->getData())
         ) {
             $queryString = $service->getEndpoint() . '?' . http_build_query($service->getData());
