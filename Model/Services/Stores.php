@@ -6,7 +6,6 @@ use MelhorEnvio\Quote\Api\Data\HttpResponseInterface;
 use MelhorEnvio\Quote\Api\HttpClientInterface;
 use MelhorEnvio\Quote\Api\StoreInterface;
 use MelhorEnvio\Quote\Helper\Data as Helper;
-use Zend_Http_Client;
 
 
 class Stores extends AbstractService implements StoreInterface
@@ -32,7 +31,7 @@ class Stores extends AbstractService implements StoreInterface
 
     public function getMethod(): string
     {
-        return Zend_Http_Client::GET;
+        return \Laminas\Http\Request::METHOD_GET;
     }
 
     public function doRequest(): HttpResponseInterface
