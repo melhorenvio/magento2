@@ -49,7 +49,7 @@ class TokenInvalid implements MessageInterface
             $payload = json_decode(base64_decode(explode('.', $this->helperData->getToken())[1]), true);
             $timestamp = $payload['exp'];
             $expDate = new DateTime();
-            $expDate->setTimestamp($timestamp);
+            $expDate->setTimestamp((int) $timestamp);
 
             $current = new DateTime('now');
 

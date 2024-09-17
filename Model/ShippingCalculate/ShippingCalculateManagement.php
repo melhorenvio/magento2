@@ -90,7 +90,7 @@ class ShippingCalculateManagement implements ShippingCalculateManagementInterfac
     private function saveServicesInSession($services): void
     {
         $checkoutData = $this->checkoutSession->getData('melhor_envio_quote');
-        $checkoutData = json_decode($checkoutData, true);
+        if ($checkoutData) $checkoutData = json_decode($checkoutData, true);
         $checkoutData[] = $services;
         $this->checkoutSession->setData('melhor_envio_quote', json_encode($checkoutData));
     }
