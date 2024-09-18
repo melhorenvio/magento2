@@ -159,7 +159,7 @@ class ShippingManagement implements ShippingManagementInterface
             return [];
         }
 
-        $services = json_decode($data ?? '', true);
+        $services = json_decode($data, true);
         foreach ($services as $service) {
             if ($service['id'] != $serviceId) {
                 continue;
@@ -186,7 +186,7 @@ class ShippingManagement implements ShippingManagementInterface
             return [];
         }
 
-        $services = json_decode($data ?? '', true);
+        $services = json_decode($data, true);
         foreach ($services as $service) {
             if ($service['id'] != $serviceId) {
                 continue;
@@ -438,9 +438,7 @@ class ShippingManagement implements ShippingManagementInterface
      */
     public function clearGridShippingToCart($data)
     {
-        if (!$data) {
-            $codeApi = [];
-        }
+        $codeApi = [];
         foreach ($data as $package) {
             $codeApi[] = $package['id'];
         }

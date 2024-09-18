@@ -115,10 +115,10 @@ class ItemDataProvider implements DataProviderInterface
      * @param mixed ...$args
      * @return mixed|null
      */
-    private function getValueOrDefault(... $args)
+    private function getValueOrDefault(...$args)
     {
         foreach ($args as $_arg) {
-            if (!!$_arg && !empty($_arg)) {
+            if (!!$_arg) {
                 return $_arg;
             }
         }

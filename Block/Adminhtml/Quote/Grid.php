@@ -23,18 +23,22 @@ class Grid extends Container
      * @var CartFactory
      */
     private $cartFactory;
+
     /**
-     * @var array|null
+     * @var array
      */
-    private $cartInfo = null;
+    private $cartInfo = [];
+
     /**
      * @var Data
      */
     private $helperData;
+
     /**
      * @var BalanceFactory
      */
     private $balanceFactory;
+
     /**
      * @var HelperPrice
      */
@@ -101,7 +105,7 @@ class Grid extends Container
         //     unset($cartButtonOptions['class_name']);
         //     unset($cartButtonOptions['options']);
         // }
-        
+
         if($this->cartInfo['total'] > 0){
             $this->buttonList->add('melhorenvio_quote_cart', $cartButtonOptions);
         }
@@ -141,12 +145,9 @@ class Grid extends Container
      * @param $gateway
      * @return string
      */
-    protected function getCreateCheckoutUrl($gateway)
+    protected function getCreateCheckoutUrl($gateway): string
     {
-        return $this->getUrl(
-            'melhorenvio_quote/quote/checkout',
-            ['gateway' => $gateway]
-        );
+        return (string) $this->getUrl('melhorenvio_quote/quote/checkout', ['gateway' => $gateway]);
     }
 
     /**
@@ -156,9 +157,13 @@ class Grid extends Container
     private function getCartInfo()
     {
         if ($this->cartInfo == null) {
-            $this->cartInfo = $this->cartFactory->create()->doRequest()->getBodyArray();
-            if (!isset($this->cartInfo['data'])) {
-                $this->cartInfo['data'] = [];
+            try {
+                $this->cartInfo = $this->cartFactory->create()->doRequest()->getBodyArray();
+                if (!isset($this->cartInfo['data'])) {
+                    $this->cartInfo['data'] = [];
+                }
+            } catch (LocalizedException $e) {
+                $this->cartInfo = ['data' => []];
             }
         }
 
@@ -199,19 +204,21 @@ class Grid extends Container
      */
     private function getBalanceLabel(): Phrase
     {
+        $response = __('Consultar Saldo');
         try {
             $result = $this->balanceFactory->create()->doRequest();
             if ($result->getCode() == 200) {
                 $data = $result->getBodyArray();
-                return __(
+                $response = __(
                     'Saldo %1',
                     $this->helperPrice->currency($data['balance'], true, false)
                 );
             }
         } catch (LocalizedException $e) {
+            $response = __('Consultar Saldo');
         }
 
-        return __('Consultar Saldo');
+        return $response;
     }
 
     /**

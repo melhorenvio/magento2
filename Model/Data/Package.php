@@ -11,6 +11,8 @@ use MelhorEnvio\Quote\Api\Data\PackageInterface;
  */
 class Package extends AbstractSimpleObject implements PackageInterface
 {
+    protected $getProtocol;
+
     /**
      * @return int|null
      */
@@ -148,10 +150,11 @@ class Package extends AbstractSimpleObject implements PackageInterface
     public function canAddToCart()
     {
 
-        if ($this->getProtocol() OR $this->getProtocol() == '' OR $this->getProtocol != 'null') {
+        if ($this->getProtocol() || $this->getProtocol() == '' || $this->getProtocol != 'null') {
             return true;
-        }else{
-            return false;}
+        } else {
+            return false;
+        }
     }
 
 }

@@ -75,6 +75,11 @@ class DataProvider implements DataProviderInterface
     protected $store;
 
     /**
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
      * DataProvider constructor.
      * @param Data $helperData
      * @param OrderRepositoryInterface $orderRepository
@@ -381,7 +386,6 @@ class DataProvider implements DataProviderInterface
 
     public function getStoreAddress()
     {
-        $codeStore = $this->shipping;
-        return $codeStore;
+        return $this->shipping;
     }
 }

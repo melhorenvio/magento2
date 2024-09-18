@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
  */
 class MelhorEnvio extends AbstractCarrier implements CarrierInterface
 {
-    const CODE = 'melhorenvio';
+    public const CODE = 'melhorenvio';
 
     protected $_code = self::CODE;
     protected $_isFixed = true;
@@ -48,6 +48,16 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
     private $shippingCalculateManagementFactory;
 
     /**
+     * @var Data
+     */
+    private $_helperData;
+
+    /**
+     * @var StatusFactory
+     */
+    private $_trackStatusFactory;
+
+    /**
      * MelhorEnvio constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param ErrorFactory $rateErrorFactory
@@ -59,18 +69,17 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
      * @param array $data
      */
     public function __construct(
-        ScopeConfigInterface               $scopeConfig,
-        ErrorFactory                       $rateErrorFactory,
-        LoggerInterface                    $logger,
-        ResultFactory                      $rateResultFactory,
-        MethodFactory                      $rateMethodFactory,
-        DataProviderFactory                $shippingCalculateDataProviderFactory,
+        ScopeConfigInterface $scopeConfig,
+        ErrorFactory $rateErrorFactory,
+        LoggerInterface $logger,
+        ResultFactory $rateResultFactory,
+        MethodFactory $rateMethodFactory,
+        DataProviderFactory $shippingCalculateDataProviderFactory,
         ShippingCalculateManagementFactory $shippingCalculateManagementFactory,
-        StatusFactory                      $trackStatusFactory,
-        Data                               $helperData,
-        array                              $data = []
-    )
-    {
+        StatusFactory $trackStatusFactory,
+        Data $helperData,
+        array $data = []
+    ) {
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
@@ -166,7 +175,7 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
     /**
      * @return array
      */
-    public function getAllowedMethods()
+    public function getAllowedMethods(): array
     {
         return [$this->_code => $this->getConfigData('name')];
     }

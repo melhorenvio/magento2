@@ -1,6 +1,5 @@
 <?php
 
-
 namespace MelhorEnvio\Quote\Controller\Adminhtml\Quote;
 
 use Magento\Backend\App\Action\Context;
@@ -13,7 +12,6 @@ use MelhorEnvio\Quote\Model\Services\TagPreviewFactory;
 
 class TagPreview extends BaseController
 {
-
     /**
      * @var TagPreviewFactory
      */
@@ -22,6 +20,8 @@ class TagPreview extends BaseController
      * @var TagGenerateFactory
      */
     private $tagGenerateFactory;
+
+    private $shippingManagement;
 
     /**
      * Constructor
@@ -35,8 +35,7 @@ class TagPreview extends BaseController
         TagPreviewFactory $tagPreviewFactory,
         TagGenerateFactory $tagGenerateFactory,
         ShippingManagementInterface $shippingManagement
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->tagPreviewFactory = $tagPreviewFactory;
         $this->tagGenerateFactory = $tagGenerateFactory;
@@ -48,9 +47,11 @@ class TagPreview extends BaseController
      */
     public function execute()
     {
+        $previewTag = null;
         $shippingId = $this->getRequest()->getParam('quote_id');
 
-        if (!$this->getRequest()->getParam('quote_id')
+        if (
+            !$this->getRequest()->getParam('quote_id')
             || !$this->getRequest()->getParam('action')
         ) {
             return $this->redirectWithError(__('Não foi possível encontrar a etiqueta'));

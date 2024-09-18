@@ -15,7 +15,7 @@
     <preference for="MelhorEnvio\Quote\Api\Data\InventoryReservationInterface" type="MelhorEnvio\Quote\Model\InventoryReservation"/>
     <preference for="MelhorEnvio\Quote\Api\Data\InventoryReservationSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 
-    <preference for="MelhorEnvio\Quote\Api\HttpClientInterface" type="MelhorEnvio\Quote\Model\Services\Client\ZendClient"/>
+    <preference for="MelhorEnvio\Quote\Api\HttpClientInterface" type="MelhorEnvio\Quote\Model\Services\Client"/>
     <preference for="MelhorEnvio\Quote\Api\Data\HttpResponseInterface" type="MelhorEnvio\Quote\Model\Data\Http\Response"/>
     <preference for="MelhorEnvio\Quote\Api\Data\CarrierCompanyInterface" type="MelhorEnvio\Quote\Model\Data\Carrier\Company"/>
     <preference for="MelhorEnvio\Quote\Api\Data\CarrierInterface" type="MelhorEnvio\Quote\Model\Data\Carrier\Carrier"/>
