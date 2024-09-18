@@ -5,7 +5,7 @@ namespace MelhorEnvio\Quote\Model\Services;
 use Magento\Framework\Exception\LocalizedException;
 use MelhorEnvio\Quote\Api\Data\HttpResponseInterface;
 use MelhorEnvio\Quote\Api\ServiceInterface;
-use Zend_Http_Client;
+use Laminas\Http\Request as HttpRequest;
 
 /**
  * Class Cancel
@@ -26,7 +26,7 @@ class Cancel extends AbstractService implements ServiceInterface
      */
     public function getMethod(): string
     {
-        return Zend_Http_Client::POST;
+        return HttpRequest::METHOD_POST;
     }
 
     /**

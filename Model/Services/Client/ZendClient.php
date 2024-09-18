@@ -9,8 +9,9 @@ use MelhorEnvio\Quote\Api\LoggerInterface;
 use MelhorEnvio\Quote\Api\ServiceInterface;
 use MelhorEnvio\Quote\Api\HttpClientInterface;
 use MelhorEnvio\Quote\Model\Data\Http\ResponseFactory;
-use Zend_Http_Client;
-use Zend_Http_Client_Exception;
+use Laminas\Http\Request as HttpRequest;
+use Laminas\Http\Exception\ExceptionInterface as HttpExceptionInterface;
+use Laminas\Http\Client as HttpClient;
 
 /**
  * Class ZendClient
@@ -30,23 +31,35 @@ class ZendClient implements HttpClientInterface
      * @var LoggerInterface
      */
     private $logger;
+    /**
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    private $productMetadata;
+    /**
+     * @var HttpClient
+     */
+    private  $httpClient;
 
     /**
      * ZendClient constructor.
+     * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param ZendClientFactory $zendClientFactory
      * @param ResponseFactory $httpResponseFactory
      * @param LoggerInterface $logger
+     * @param \Magento\Framework\HTTP\Client\Curl $curl
      */
     public function __construct(
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         ZendClientFactory $zendClientFactory,
         ResponseFactory $httpResponseFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        HttpClient $httpClient
     ) {
         $this->productMetadata = $productMetadata;
         $this->zendClientFactory = $zendClientFactory;
         $this->httpResponseFactory = $httpResponseFactory;
         $this->logger = $logger;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -56,31 +69,29 @@ class ZendClient implements HttpClientInterface
      */
     public function doRequest(ServiceInterface $service): HttpResponseInterface
     {
-        if ($service->getMethod() == Zend_Http_Client::DELETE) {
+        if ($service->getMethod() == HttpRequest::METHOD_DELETE) {
             return $this->handleMethodDelete($service);
         }
 
-        /** @var \Magento\Framework\HTTP\ZendClient $client */
-        $client = $this->zendClientFactory->create();
         $headers = $service->getHeaders();
         $headers['User-Agent'] = 'Magento 2/'.$this->productMetadata->getVersion();
 
-
         try {
-            $client->setUri($this->getEndpoint($service));
-            $client->setMethod($service->getMethod());
-            $client->setHeaders($service->getHeaders());
+            $this->httpClient->setUri($this->getEndpoint($service));
+            $this->httpClient->setMethod($service->getMethod());
+            $this->httpClient->setHeaders($service->getHeaders());
 
             if (!empty($service->getData())
-                && $service->getMethod() != Zend_Http_Client::GET
+                && $service->getMethod() != HttpRequest::METHOD_GET
             ) {
-                $client->setRawData($this->prepareData($service->getData()));
+                $this->httpClient->setRawBody($this->prepareData($service->getData()));
             }
 
             $this->logger->info($this->getEndpoint($service), [$service->getData()]);
             $this->logger->info('headers', $headers);
-            $result = $client->request();
-        } catch (Zend_Http_Client_Exception $e) {
+
+            $result = $this->httpClient->send();
+        } catch (HttpExceptionInterface $e) {
             $this->logger->error($e->getMessage());
             throw new LocalizedException(__('Resource temporarily unavailable'));
         }
@@ -88,7 +99,7 @@ class ZendClient implements HttpClientInterface
         $this->logger->info($result->getBody());
 
         return $this->httpResponseFactory->create(['data' => [
-            'code' => $result->getStatus(),
+            'code' => $result->getStatusCode(),
             'body' => $result->getBody(),
             'headers' => $result->getHeaders()
         ]]);
@@ -111,7 +122,7 @@ class ZendClient implements HttpClientInterface
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => Zend_Http_Client::DELETE,
+            CURLOPT_CUSTOMREQUEST => HttpRequest::METHOD_DELETE,
             CURLOPT_POSTFIELDS => '',
             CURLOPT_HTTPHEADER => [
                 'User-Agent: Magento 2/'.$this->productMetadata->getVersion(),
@@ -147,7 +158,7 @@ class ZendClient implements HttpClientInterface
      */
     private function getEndpoint(ServiceInterface $service): string
     {
-        if (in_array($service->getMethod(), [Zend_Http_Client::GET, Zend_Http_Client::DELETE])
+        if (in_array($service->getMethod(), [HttpRequest::METHOD_GET, HttpRequest::METHOD_DELETE])
             && !empty($service->getData())
         ) {
             $queryString = $service->getEndpoint() . '?' . http_build_query($service->getData());
