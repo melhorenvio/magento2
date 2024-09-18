@@ -25,7 +25,7 @@
                         </tooltip>
                     </field>
                     <field id="token" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30"
-                           translate="label" type="text">
+                           translate="label" type="textarea">
                         <label>Token</label>
                         <config_path>carriers/melhorenvio/token</config_path>
                         <tooltip>Insira aqui o token gerado dentro da plataforma Melhor Envio.</tooltip>
@@ -36,17 +36,158 @@
                         <config_path>carriers/melhorenvio/name</config_path>
                         <tooltip>Informa o rótulo do método de entrega.</tooltip>
                     </field>
+                    <field id="title" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="300"
+                           translate="label" type="text">
+                        <label>Título</label>
+                        <config_path>carriers/melhorenvio/title</config_path>
+                        <tooltip>Insira aqui o nome que será exibido no checkout da loja.</tooltip>
+                    </field>
                     <field id="sort_order" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="400"
                            translate="label" type="text">
                         <label>Ordenação</label>
                         <config_path>carriers/melhorenvio/sort_order</config_path>
                         <tooltip>Ordem de exibição do método logístico de envio.</tooltip>
                     </field>
-                    <field id="title" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="500"
-                           translate="label" type="text">
-                        <label>Título</label>
-                        <config_path>carriers/melhorenvio/title</config_path>
-                        <tooltip>Insira aqui o nome que será exibido no checkout da loja.</tooltip>
+                    <field id="sallowspecific" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="600"
+                           translate="label" type="select">
+                        <label>Países com cobertura</label>
+                        <frontend_class>shipping-applicable-country</frontend_class>
+                        <config_path>carriers/melhorenvio/sallowspecific</config_path>
+                        <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="700"
+                           translate="label" type="multiselect">
+                        <label>Enviar para países específicos</label>
+                        <config_path>carriers/melhorenvio/specificcountry</config_path>
+                        <can_be_empty>1</can_be_empty>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    </field>
+                </group>
+
+                <group id="from" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>From Settings</label>
+                    <field id="name" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Nome</label>
+                        <validate>required-entry validate-no-empty</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="telephone" translate="label" type="text" sortOrder="200" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Telefone</label>
+                        <validate>required-entry validate-no-empty validate-length minimum-length-10 maximum-length-11</validate>
+                        <comment>Number Only - 47999999999</comment>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="email" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>E-mail</label>
+                        <validate>required-entry validate-no-empty validate-email</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="is_company" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="310"
+                           translate="label" type="select">
+                        <label>Usar CNPJ?</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="document" translate="label" type="text" sortOrder="400" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>CPF</label>
+                        <validate>required-entry validate-no-empty validate-digits validate-length minimum-length-11
+                            maximum-length-11
+                        </validate>
+                        <comment>Number Only</comment>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                            <field id="carriers/melhorenvio/from/is_company">0</field>
+                        </depends>
+                    </field>
+                    <field id="company_document" translate="label" type="text" sortOrder="500" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>CNPJ</label>
+                        <validate>required-entry validate-no-empty validate-digits validate-length minimum-length-14
+                            maximum-length-14
+                        </validate>
+                        <comment>Number Only</comment>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                            <field id="carriers/melhorenvio/from/is_company">1</field>
+                        </depends>
+                    </field>
+                    <field id="state_register" translate="label" type="text" sortOrder="600" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>IE</label>
+                        <depends>
+                            <field id="carriers/melhorenvio/from/is_company">1</field>
+                        </depends>
+                    </field>
+                    <field id="street" translate="label" type="text" sortOrder="700" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Rua</label>
+                        <validate>required-entry validate-no-empty</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="number" translate="label" type="text" sortOrder="800" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Número</label>
+                    </field>
+                    <field id="district" translate="label" type="text" sortOrder="900" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Bairro</label>
+                        <validate>required-entry validate-no-empty</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="complement" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Complemento</label>
+                    </field>
+                    <field id="city" translate="label" type="text" sortOrder="1100" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Cidade</label>
+                        <validate>required-entry validate-no-empty</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="state" translate="label" type="text" sortOrder="1110" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>UF</label>
+                        <validate>required-entry validate-no-empty validate-length minimum-length-2 maximum-length-2</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="country" translate="label" type="select" sortOrder="1200" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>País</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    </field>
+                    <field id="postcode" translate="label" type="text" sortOrder="1300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>CEP</label>
+                        <comment>Number Only</comment>
+                        <validate>required-entry validate-no-empty validate-digits validate-length minimum-length-8 maximum-length-8</validate>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                        </depends>
+                    </field>
+                    <field id="note" translate="label" type="textarea" sortOrder="1400" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Note</label>
                     </field>
                 </group>
 
@@ -103,6 +244,38 @@
                 <group id="product" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Products Attributes</label>
+
+                    <field id="unit_measurement" translate="label" type="select" sortOrder="100" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <config_path>carriers/melhorenvio/unit_measurement</config_path>
+                        <label>Unidade de medida</label>
+                        <source_model>MelhorEnvio\Quote\Model\Config\Source\UnitMeasurement</source_model>
+                    </field>
+                    <field id="weight_unit" translate="label" type="select" sortOrder="200" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Unidade de peso</label>
+                        <config_path>carriers/melhorenvio/weight_unit</config_path>
+                        <source_model>MelhorEnvio\Quote\Model\Config\Source\WeightUnit</source_model>
+                    </field>
+                    <field id="height_attribute" translate="label" type="select" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Atributo de Altura</label>
+                        <config_path>carriers/melhorenvio/height_attribute</config_path>
+                        <source_model>MelhorEnvio\Quote\Model\Config\Source\ProductAttribute</source_model>
+                    </field>
+                    <field id="width_attribute" translate="label" type="select" sortOrder="400" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Atributo de Largura</label>
+                        <config_path>carriers/melhorenvio/width_attribute</config_path>
+                        <source_model>MelhorEnvio\Quote\Model\Config\Source\ProductAttribute</source_model>
+                    </field>
+                    <field id="length_attribute" translate="label" type="select" sortOrder="500" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Atributo de Comprimento</label>
+                        <config_path>carriers/melhorenvio/length_attribute</config_path>
+                        <source_model>MelhorEnvio\Quote\Model\Config\Source\ProductAttribute</source_model>
+                    </field>
+
                     <field id="height_default" translate="label" type="text" sortOrder="600" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>Altura Padrão</label>
@@ -122,107 +295,6 @@
                            showInWebsite="1" showInStore="1">
                         <label>Peso Padrão</label>
                         <validate>validate-number validate-not-negative-number</validate>
-                    </field>
-                </group>
-
-                <group id="from" translate="label" type="text" sortOrder="1100" showInDefault="1" showInWebsite="1"
-                       showInStore="1">
-                    <label>From Settings</label>
-                    <field id="name" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>Nome</label>
-                        <validate>required-entry validate-no-empty</validate>
-                    </field>
-                    <field id="telephone" translate="label" type="text" sortOrder="200" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Telefone</label>
-                        <validate>required-entry validate-no-empty validate-length minimum-length-10 maximum-length-11
-                        </validate>
-                        <comment>Number Only - 47999999999</comment>
-                    </field>
-                    <field id="email" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>E-mail</label>
-                        <validate>required-entry validate-no-empty validate-email</validate>
-                    </field>
-                    <field id="is_company" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="310"
-                           translate="label" type="select">
-                        <label>Usar CNPJ?</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="document" translate="label" type="text" sortOrder="400" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>CPF</label>
-                        <validate>required-entry validate-no-empty validate-digits validate-length minimum-length-11
-                            maximum-length-11
-                        </validate>
-                        <comment>Number Only</comment>
-                        <depends>
-                            <field id="carriers/melhorenvio/from/is_company">0</field>
-                        </depends>
-                    </field>
-                    <field id="company_document" translate="label" type="text" sortOrder="500" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>CNPJ</label>
-                        <validate>required-entry validate-no-empty validate-digits validate-length minimum-length-14
-                            maximum-length-14
-                        </validate>
-                        <comment>Number Only</comment>
-                        <depends>
-                            <field id="carriers/melhorenvio/from/is_company">1</field>
-                        </depends>
-                    </field>
-                    <field id="state_register" translate="label" type="text" sortOrder="600" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>IE</label>
-                        <depends>
-                            <field id="carriers/melhorenvio/from/is_company">1</field>
-                        </depends>
-                    </field>
-                    <field id="street" translate="label" type="text" sortOrder="700" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>Rua</label>
-                        <validate>required-entry validate-no-empty</validate>
-                    </field>
-                    <field id="number" translate="label" type="text" sortOrder="800" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>Número</label>
-                    </field>
-                    <field id="district" translate="label" type="text" sortOrder="900" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Bairro</label>
-                        <validate>required-entry validate-no-empty</validate>
-                    </field>
-                    <field id="complement" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Complemento</label>
-                    </field>
-                    <field id="city" translate="label" type="text" sortOrder="1100" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>Cidade</label>
-                        <validate>required-entry validate-no-empty</validate>
-                    </field>
-                    <field id="state" translate="label" type="text" sortOrder="1110" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>UF</label>
-                        <validate>required-entry validate-no-empty validate-length minimum-length-2 maximum-length-2
-                        </validate>
-                    </field>
-                    <field id="country" translate="label" type="select" sortOrder="1200" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>País</label>
-                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    </field>
-                    <field id="postcode" translate="label" type="text" sortOrder="1300" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>CEP</label>
-                        <validate>required-entry validate-no-empty validate-digits validate-length minimum-length-8
-                            maximum-length-8
-                        </validate>
-                    </field>
-                    <field id="note" translate="label" type="textarea" sortOrder="1400" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Note</label>
                     </field>
                 </group>
                 <group id="companies" translate="label" type="text" sortOrder="1150" showInDefault="1" showInWebsite="1"
@@ -246,18 +318,6 @@
                 <group id="config_dev" translate="label" type="text" sortOrder="1350" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Configurações para desenvolvedor</label>
-                    <field id="sallowspecific" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="600"
-                           translate="label" type="select">
-                        <label>Países com cobertura</label>
-                        <frontend_class>shipping-applicable-country</frontend_class>
-                        <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
-                    </field>
-                    <field id="specificcountry" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="700"
-                           translate="label" type="multiselect">
-                        <label>Enviar para países específicos</label>
-                        <can_be_empty>1</can_be_empty>
-                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    </field>
                     <field id="log" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="800"
                            translate="label" type="select">
                         <label>Habilitar Log</label>
@@ -270,33 +330,6 @@
                         <config_path>carriers/melhorenvio/url_debug</config_path>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>Debug disponível em dominio.com/melhorenvio/debug/quote</comment>
-                    </field>
-
-                    <field id="unit_measurement" translate="label" type="select" sortOrder="100" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <config_path>carriers/melhorenvio/unit_measurement</config_path>
-                        <label>Unidade de medida</label>
-                        <source_model>MelhorEnvio\Quote\Model\Config\Source\UnitMeasurement</source_model>
-                    </field>
-                    <field id="weight_unit" translate="label" type="select" sortOrder="200" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Unidade de peso</label>
-                        <source_model>MelhorEnvio\Quote\Model\Config\Source\WeightUnit</source_model>
-                    </field>
-                    <field id="height_attribute" translate="label" type="select" sortOrder="300" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Atributo de Altura</label>
-                        <source_model>MelhorEnvio\Quote\Model\Config\Source\ProductAttribute</source_model>
-                    </field>
-                    <field id="width_attribute" translate="label" type="select" sortOrder="400" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Atributo de Largura</label>
-                        <source_model>MelhorEnvio\Quote\Model\Config\Source\ProductAttribute</source_model>
-                    </field>
-                    <field id="length_attribute" translate="label" type="select" sortOrder="500" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Atributo de Comprimento</label>
-                        <source_model>MelhorEnvio\Quote\Model\Config\Source\ProductAttribute</source_model>
                     </field>
                 </group>
             </group>

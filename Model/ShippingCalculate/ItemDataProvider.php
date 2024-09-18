@@ -104,11 +104,11 @@ class ItemDataProvider implements DataProviderInterface
 
     /**
      * @param $field
-     * @return mixed
+     * @return string
      */
-    private function getProductConfigData($field)
+    private function getProductConfigData($field): string
     {
-        return $this->helperData->getConfigData(sprintf('config_dev/%s', $field));
+        return (string) $this->helperData->getConfigData($field);
     }
 
     /**
