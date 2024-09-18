@@ -170,13 +170,13 @@ class Data extends AbstractHelper
      * @param $weight
      * @return float
      */
-    public function getProductWeight($weight)
+    public function getProductWeight($weight): float
     {
         if (!is_null($weight)) {
-            return $weight * $this->getConfigData('weight_unit');
+            return (float) $weight * (float) $this->getConfigData('weight_unit');
         }
 
-        return $this->getConfigData('product/weight_default');
+        return (float) $this->getConfigData('product/weight_default');
     }
 
     /**
