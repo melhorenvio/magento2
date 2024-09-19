@@ -99,7 +99,7 @@ class ItemDataProvider implements DataProviderInterface
         $valueDefault = $this->getProductConfigData(sprintf('%s_default', $attribute));
         $attrValue = $this->getValueOrDefault($product->getData($attr), $valueDefault);
 
-        return ceil($attrValue * $this->helperData->getConfigData('unit_measurement'));
+        return ceil((float) $attrValue * (float) $this->helperData->getConfigData('unit_measurement'));
     }
 
     /**
