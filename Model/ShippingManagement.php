@@ -188,11 +188,12 @@ class ShippingManagement implements ShippingManagementInterface
 
         $services = json_decode($data, true);
         foreach ($services as $service) {
-            if ($service['id'] != $serviceId) {
+            if (!isset($service) || $service['id'] != $serviceId) {
                 continue;
             }
 
-            if (array_key_exists('packages', $service)
+            if (
+                array_key_exists('packages', $service)
                 && is_array($service['packages'])
             ) {
                 return $service['packages'];
