@@ -108,28 +108,25 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
         }
 
         $services = $this->_helperData->getServicesAvailable();
-        $services = explode(',', $services);
         $carriers = [];
-        foreach ($services as $service) {
-            $shippingCalculateDataProvider = $this->shippingCalculateDataProviderFactory->create(['data' => [
-                'request' => $request
-            ],
-                'service' => $service]);
+        $shippingCalculateDataProvider = $this->shippingCalculateDataProviderFactory->create([
+            'data' => ['request' => $request],
+            'service' => $services
+        ]);
 
-            $shippingCalculate = $this->shippingCalculateManagementFactory->create([
-                'data' => $shippingCalculateDataProvider->getData()
-            ]);
+        $shippingCalculate = $this->shippingCalculateManagementFactory->create([
+            'data' => $shippingCalculateDataProvider->getData()
+        ]);
 
-            try {
-                $carrier = $shippingCalculate->getAvailableServices();
-                if (!empty($carrier)) {
-                    $carriers[] = $carrier[0];
-                }
-            } catch (LocalizedException $e) {
-                $this->_logger->error($e->getMessage());
-                continue;
+        try {
+            $carrier = $shippingCalculate->getAvailableServices();
+            if (!empty($carrier)) {
+                $carriers[] = $carrier[0];
             }
+        } catch (LocalizedException $e) {
+            $this->_logger->error($e->getMessage());
         }
+
         return $this->prepareCarriersToOutput($carriers);
     }
 
