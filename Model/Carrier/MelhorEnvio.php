@@ -119,10 +119,7 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
         ]);
 
         try {
-            $carrier = $shippingCalculate->getAvailableServices();
-            if (!empty($carrier)) {
-                $carriers[] = $carrier[0];
-            }
+            $carriers = $shippingCalculate->getAvailableServices();
         } catch (LocalizedException $e) {
             $this->_logger->error($e->getMessage());
         }
