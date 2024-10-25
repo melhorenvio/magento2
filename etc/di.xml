@@ -55,18 +55,11 @@
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="melhorenvio_quote_quote_listing_data_source" xsi:type="string">MelhorEnvio\Quote\Model\ResourceModel\Quote\Grid\Collection</item>
-            </argument>
-        </arguments>
-    </type>
-
-    <!-- Melhore Store Admin -->
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <arguments>
-            <argument name="collections" xsi:type="array">
                 <item name="melhorenvio_quote_store_listing_data_source" xsi:type="string">MelhorEnvio\Quote\Model\ResourceModel\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
+
     <virtualType name="MelhorEnvio\Quote\Model\ResourceModel\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">melhor_store</argument>
@@ -76,9 +69,9 @@
 
     <!-- Proxy -->
     <type name="MelhorEnvio\Quote\Observer\Sales\OrderSaveBefore">
-    <arguments>
-        <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-    </arguments>
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
     </type>
 
 </config>
