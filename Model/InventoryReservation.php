@@ -10,6 +10,7 @@ use MelhorEnvio\Quote\Model\ResourceModel\InventoryReservation\Collection;
 
 class InventoryReservation extends AbstractModel
 {
+    const CACHE_TAG = 'inventory_reservation';
 
     /**
      * Prefix of model events names

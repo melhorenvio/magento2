@@ -25,12 +25,15 @@ class Tag extends BaseController
      */
     private $tagGenerateFactory;
 
+    private $shippingManagement;
+
     /**
      * Constructor
      *
      * @param Context $context
      * @param TagPreviewFactory $tagPreviewFactory
      * @param TagGenerateFactory $tagGenerateFactory
+     * @param ShippingManagementInterface $shippingManagement
      */
     public function __construct(
         Context $context,
@@ -52,7 +55,8 @@ class Tag extends BaseController
         $shippingId = $this->getRequest()->getParam('quote_id');
         $postcode = $this->getRequest()->getParam('origin');
 
-        if (!$this->getRequest()->getParam('quote_id')
+        if (
+            !$this->getRequest()->getParam('quote_id')
             || !$this->getRequest()->getParam('action')
         ) {
             return $this->redirectWithError(__('Não foi possível encontrar a etiqueta'));

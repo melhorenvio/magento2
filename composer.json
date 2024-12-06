@@ -3,16 +3,10 @@
     "description": "Módulo para gestão de frete do Melhor Envio",
     "type": "magento2-module",
     "license": "proprietary",
-    "authors": [
-        {
-            "email": "contato@trezo.com.br",
-            "name": "Trezo"
-        }
-    ],
     "minimum-stability": "dev",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "require": {
-        "ext-curl": "*"
+        "laminas/laminas-http": ">=2.13"
     },
     "autoload": {
         "psr-4": {

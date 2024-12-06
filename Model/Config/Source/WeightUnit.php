@@ -20,7 +20,7 @@ class WeightUnit implements OptionSourceInterface
     {
         return [
             ['value' => self::GRAM_MULTIPLICATION_FACTOR, 'label' => __('Gram')],
-            ['value' => SELF::KILO_MULTIPLICATION_FACTOR, 'label' => __('Kilo')]
+            ['value' => self::KILO_MULTIPLICATION_FACTOR, 'label' => __('Kilo')]
         ];
     }
 }

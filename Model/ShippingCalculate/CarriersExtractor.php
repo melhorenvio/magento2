@@ -48,19 +48,39 @@ class CarriersExtractor implements ExtractorInterface
     public function extract(): array
     {
         $carriers = [];
-        if(isset($this->data['price'])){
-            $carrierCompany = $this->companyFactory->create([
-                'data' => $this->data['company']
-            ]);
-
-            $this->data[CarrierInterface::DELIVERY_MIN] = $this->data['delivery_range']['min'];
-            $this->data[CarrierInterface::DELIVERY_MAX] = $this->data['delivery_range']['max'];
-            $this->data[CarrierInterface::COMPANY] = $carrierCompany;
-
-            $carriers[] = $this->carrierFactory->create([
-                'data' => $this->data
-            ]);
+        if (isset($this->data['price'])) {
+            $carriers[] = $this->getCarrier($carriers);
+        } else {
+            foreach ($this->data as $carrierData) {
+                try {
+                    $carrier = $this->getCarrier($carrierData);
+                    $carriers[] = $carrier[0];
+                } catch (\Exception $e) {
+                    continue;
+                }
+            }
         }
+
+        return $carriers;
+    }
+
+    /**
+     * @param array $carriers
+     * @return array
+     */
+    public function getCarrier(array $carrier): array
+    {
+        $carrierCompany = $this->companyFactory->create([
+            'data' => $carrier['company']
+        ]);
+
+        $carrier[CarrierInterface::DELIVERY_MIN] = $carrier['delivery_range']['min'];
+        $carrier[CarrierInterface::DELIVERY_MAX] = $carrier['delivery_range']['max'];
+        $carrier[CarrierInterface::COMPANY] = $carrierCompany;
+
+        $carriers[] = $this->carrierFactory->create([
+            'data' => $carrier
+        ]);
 
         return $carriers;
     }

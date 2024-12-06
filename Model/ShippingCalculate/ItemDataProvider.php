@@ -99,26 +99,26 @@ class ItemDataProvider implements DataProviderInterface
         $valueDefault = $this->getProductConfigData(sprintf('%s_default', $attribute));
         $attrValue = $this->getValueOrDefault($product->getData($attr), $valueDefault);
 
-        return ceil($attrValue * $this->helperData->getConfigData('unit_measurement'));
+        return ceil((float) $attrValue * (float) $this->helperData->getConfigData('unit_measurement'));
     }
 
     /**
      * @param $field
-     * @return mixed
+     * @return string
      */
-    private function getProductConfigData($field)
+    private function getProductConfigData($field): string
     {
-        return $this->helperData->getConfigData(sprintf('config_dev/%s', $field));
+        return (string) $this->helperData->getConfigData($field);
     }
 
     /**
      * @param mixed ...$args
      * @return mixed|null
      */
-    private function getValueOrDefault(... $args)
+    private function getValueOrDefault(...$args)
     {
         foreach ($args as $_arg) {
-            if (!!$_arg && !empty($_arg)) {
+            if (!!$_arg) {
                 return $_arg;
             }
         }

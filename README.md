@@ -41,9 +41,7 @@
 
 ## Compatibilidade e Requisitos
 
-* Magento 2.4.2 & PHP 7.4
-* Magento 2.4.1 & PHP 7.4
-* Magento 2.4.0 & PHP 7.4
+* Magento 2.3.6+ & PHP 7.4+
 
 ## Instalação
 

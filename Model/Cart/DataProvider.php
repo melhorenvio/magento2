@@ -75,6 +75,11 @@ class DataProvider implements DataProviderInterface
     protected $store;
 
     /**
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
      * DataProvider constructor.
      * @param Data $helperData
      * @param OrderRepositoryInterface $orderRepository
@@ -221,8 +226,8 @@ class DataProvider implements DataProviderInterface
         $order = $this->getParentOrder();
         $shippingAddress = $this->getShippingAddress();
         $streetArr = $shippingAddress->getStreet();
-        $cpfCnpj = $order->getCustomerTaxvat() ?? $order->getBillingAddress()->getVatId();
-        $cpfCnpj = preg_replace("/[^0-9]/", '', $cpfCnpj);
+        $cpfCnpj = $order->getCustomerTaxvat() ?: (string) $order->getBillingAddress()->getVatId();
+        $cpfCnpj = preg_replace("/[^0-9]/", '', (string) $cpfCnpj);
         $data = [
             'name' => sprintf('%s %s', $shippingAddress->getFirstname(), $shippingAddress->getLastname()),
             'phone' => $shippingAddress->getTelephone(),
@@ -381,7 +386,6 @@ class DataProvider implements DataProviderInterface
 
     public function getStoreAddress()
     {
-        $codeStore = $this->shipping;
-        return $codeStore;
+        return $this->shipping;
     }
 }

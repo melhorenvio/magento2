@@ -362,7 +362,7 @@ class PackageManagement implements PackageManagementInterface
             $package->setCode('');
 
             $this->packageRepository->save($package);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new LocalizedException(__('Não foi possível remover o pacote.'));
         }
     }
@@ -372,13 +372,13 @@ class PackageManagement implements PackageManagementInterface
      * @return bool
      * @throws LocalizedException
      */
-    public function removePackageToAPI($code)
+    public function removePackageToAPI($code): bool
     {
         try {
             $this->serviceRemoveToCartFactory->create([
                 'data' => [$code]
             ])->doRequest();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
         }
 

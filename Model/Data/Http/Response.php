@@ -44,6 +44,6 @@ class Response extends DataObject implements HttpResponseInterface
             return [];
         }
 
-        return json_decode($this->getBody(), true);
+        return json_decode($this->getBody(), true) ?? [];
     }
 }

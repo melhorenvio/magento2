@@ -117,11 +117,11 @@ class Data extends AbstractHelper
     /**
      * @param $field
      * @param $scopeCode
-     * @return mixed
+     * @return string
      */
     public function getConfigData($field, $scopeCode = null)
     {
-        return $this->scopeConfig->getValue(
+        return (string) $this->scopeConfig->getValue(
             'carriers/' . MelhorEnvio::CODE . '/' . $field,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -170,13 +170,13 @@ class Data extends AbstractHelper
      * @param $weight
      * @return float
      */
-    public function getProductWeight($weight)
+    public function getProductWeight($weight): float
     {
-        if (!is_null($weight)) {
-            return $weight * $this->getConfigData('config_dev/weight_unit');
-        }
-
-        return $this->getConfigData('product/weight_default');
+        $weight = (float) $weight;
+        $defaultWeight = (float) $this->getConfigData('product/weight_default');
+        $weightUnit = (float) $this->getConfigData('weight_unit');
+        $finalWeight = $weight ?: $defaultWeight;
+        return $finalWeight / $weightUnit;
     }
 
     /**

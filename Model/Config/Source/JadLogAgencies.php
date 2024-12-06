@@ -49,7 +49,7 @@ class JadLogAgencies implements OptionSourceInterface
             return $data;
         }
         foreach ($agencies as $agency) {
-            if ($agency['status'] !== 'available') {
+            if (!isset($agency['status']) || $agency['status'] !== 'available') {
                 continue;
             }
 
