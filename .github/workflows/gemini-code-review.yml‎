@@ -1,0 +1,11 @@
+name: Gemini Code Review
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  review:
+    uses: melhorenvio/devops-reusable-workflows/.github/workflows/gemini-code-review.yml@2.46
+    secrets: inherit
