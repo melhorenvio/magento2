@@ -124,6 +124,15 @@
                             <field id="carriers/melhorenvio/from/is_company">1</field>
                         </depends>
                     </field>
+                    <field id="cnae" translate="label" type="text" sortOrder="550" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Número CNAE</label>
+                        <comment>O número CNAE é obrigatório para envios com LATAM Cargo.</comment>
+                        <depends>
+                            <field id="carriers/melhorenvio/active">1</field>
+                            <field id="carriers/melhorenvio/from/is_company">1</field>
+                        </depends>
+                    </field>
                     <field id="state_register" translate="label" type="text" sortOrder="600" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>IE</label>
@@ -297,6 +306,7 @@
                         <validate>validate-number validate-not-negative-number</validate>
                     </field>
                 </group>
+
                 <group id="companies" translate="label" type="text" sortOrder="1150" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Transportadores</label>

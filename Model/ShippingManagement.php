@@ -112,7 +112,7 @@ class ShippingManagement implements ShippingManagementInterface
         $quoteReverse = 0;
         $quote = $this->createShippingQuote($order, $quoteReverse);
 
-        if ($quote->isCorreioService()) {
+        if ($quote->createTagsByVolumes()) {
             foreach ($packages as $data) {
                 $this->createPackage($quote->getId(), $data);
             }

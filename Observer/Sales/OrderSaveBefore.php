@@ -52,6 +52,7 @@ class OrderSaveBefore implements ObserverInterface
 
         if ($data) {
             $order->setMelhorenvioShipping($data);
+            $this->checkoutSession->unsMelhorEnvioCollectRates();
         }
 
         $shippingDescription = $order->getShippingDescription();

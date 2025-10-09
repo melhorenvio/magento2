@@ -65,13 +65,13 @@ class ItemDataProvider implements DataProviderInterface
             }
             if ($oldSkuPass != $item->getSku()) {
                 $data[] = [
-                    ShippingCalculateItemInterface::SKU => $item->getSku(),
+                    ShippingCalculateItemInterface::ID => $item->getSku(),
                     ShippingCalculateItemInterface::WEIGHT => $this->helperData->getProductWeight($item->getWeight()),
                     ShippingCalculateItemInterface::WIDTH => $this->getMeasurementAttrValue('width', $product),
                     ShippingCalculateItemInterface::HEIGHT => $this->getMeasurementAttrValue('height', $product),
                     ShippingCalculateItemInterface::LENGTH => $this->getMeasurementAttrValue('length', $product),
                     ShippingCalculateItemInterface::QUANTITY => (int)$item->getQty(),
-                    ShippingCalculateItemInterface::INSURANCE_VALUE => $this->getInsuranceValue($product->getPrice())
+                    ShippingCalculateItemInterface::INSURANCE_VALUE => $this->getInsuranceValue($product->getFinalPrice())
                 ];
             }
             $oldSkuPass = $item->getSku();

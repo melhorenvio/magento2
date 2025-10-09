@@ -208,6 +208,10 @@ class PackageManagement implements PackageManagementInterface
             return $this->redirectWithError(__(json_encode($data)));
         }
 
+        if (isset($data['generate_key'])) {
+            $data = [end($data)];
+        }
+
         $data = reset($data);
         if (array_key_exists('status', $data) && $data['status'] == true) {
             return $this->redirectWithSuccess(__($data['message']));

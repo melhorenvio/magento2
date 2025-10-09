@@ -241,6 +241,14 @@ class Quote extends AbstractExtensibleObject implements QuoteInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function createTagsByVolumes()
+    {
+        return in_array($this->getService(), self::MULTIPLE_TAG_SERVICE_IDS);
+    }
+
+    /**
      * @param $quoteReverse
      * @return Quote|mixed
      */

@@ -2,6 +2,7 @@
 
 namespace MelhorEnvio\Quote\Model\Carrier;
 
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Quote\Model\Quote\Address\RateRequest;
@@ -58,6 +59,12 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
     private $_trackStatusFactory;
 
     /**
+     * @var CheckoutSession
+     */
+    protected $checkoutSession;
+
+
+    /**
      * MelhorEnvio constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param ErrorFactory $rateErrorFactory
@@ -78,6 +85,7 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
         ShippingCalculateManagementFactory $shippingCalculateManagementFactory,
         StatusFactory $trackStatusFactory,
         Data $helperData,
+        CheckoutSession $checkoutSession,
         array $data = []
     ) {
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
@@ -87,6 +95,7 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
         $this->shippingCalculateManagementFactory = $shippingCalculateManagementFactory;
         $this->_trackStatusFactory = $trackStatusFactory;
         $this->_helperData = $helperData;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -114,12 +123,17 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
             'service' => $services
         ]);
 
+        $postData = $shippingCalculateDataProvider->getData();
         $shippingCalculate = $this->shippingCalculateManagementFactory->create([
-            'data' => $shippingCalculateDataProvider->getData()
+            'data' => $postData
         ]);
 
         try {
-            $carriers = $shippingCalculate->getAvailableServices();
+            $carriers = $this->getRatesFromSession($postData);
+            if (!$carriers) {
+                $carriers = $shippingCalculate->getAvailableServices();
+                $this->setRatesOnSession($postData, $carriers);
+            }
         } catch (LocalizedException $e) {
             $this->_logger->error($e->getMessage());
         }
@@ -187,5 +201,32 @@ class MelhorEnvio extends AbstractCarrier implements CarrierInterface
             'url' => $url,
         ]);
         return $tracking;
+    }
+
+    /**
+     * @param $request
+     * @return array
+     */
+    protected function getRatesFromSession($request)
+    {
+        $requestHash = md5(json_encode($request));
+        $currentRates = $this->checkoutSession->getMelhorEnvioCollectRates() ?? [];
+        return $currentRates[$requestHash] ?? [];
+    }
+
+    /**
+     * @param $request
+     * @param $response
+     * @return void
+     */
+    protected function setRatesOnSession($request, $response)
+    {
+        $currentRates = $this->checkoutSession->getMelhorEnvioCollectRates();
+        $requestHash = md5(json_encode($request));
+
+        if (!isset($currentRates[$requestHash])) {
+            $currentRates[$requestHash] = $response;
+            $this->checkoutSession->setMelhorEnvioCollectRates($currentRates);
+        }
     }
 }

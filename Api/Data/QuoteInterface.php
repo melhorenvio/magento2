@@ -31,6 +31,7 @@ interface QuoteInterface extends ExtensibleDataInterface
 
     const CORREIOS_SERVICE_IDS = [1, 2, 17];
     const JADLOG_SERVICE_IDS = [3, 4];
+    const MULTIPLE_TAG_SERVICE_IDS = [1, 2, 17, 31, 32, 33, 34];
 
     /**
      * Get quote_id
@@ -190,6 +191,11 @@ interface QuoteInterface extends ExtensibleDataInterface
      * @return bool
      */
     public function isCorreioService();
+
+    /**
+     * @return bool
+     */
+    public function createTagsByVolumes();
 
     /**
      * @return mixed

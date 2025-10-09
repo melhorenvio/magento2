@@ -151,7 +151,7 @@ class DataProvider implements DataProviderInterface
 
         $data['options']['insurance_value'] = $this->getInsuranceValue();
 
-        if ($this->shipping->isCorreioService()) {
+        if ($this->shipping->createTagsByVolumes()) {
             $data['package'] = $this->extractPackages();
         } else {
             $data['agency'] = $this->helperData->getConfigData('agency/jadlog_default');
@@ -205,6 +205,10 @@ class DataProvider implements DataProviderInterface
 
         if ($this->helperData->getAddressFromConfigData('state_register') && $isCompany) {
             $data['state_register'] = $this->helperData->getAddressFromConfigData('state_register');
+        }
+
+        if ($this->helperData->getAddressFromConfigData('cnae') && $isCompany) {
+            $data['economic_activity_code'] = $this->helperData->getAddressFromConfigData('cnae');
         }
 
         if ($complement = $this->helperData->getAddressFromConfigData('complement')) {
@@ -289,16 +293,12 @@ class DataProvider implements DataProviderInterface
     {
         $items = [];
         $lastSkuPass = '';
-        if (!$this->shipping->isCorreioService()) {
+        if (!$this->shipping->createTagsByVolumes()) {
             foreach ($this->getParentOrder()->getItems() as $item) {
                 if ($lastSkuPass != $item->getSku()) {
-                    $items[] = [
-                        'name' => $item->getName(),
-                        'quantity' => $item->getQtyOrdered(),
-                        'unitary_value' => floatval($item->getPrice()),
-                        'weight' => $this->helperData->getProductWeight($item->getWeight())
-                    ];
+                    $items[] = $this->getPackageItemData($item, $item->getQtyOrdered());
                 }
+
                 $lastSkuPass = $item->getSku();
             }
             return $items;
@@ -307,14 +307,9 @@ class DataProvider implements DataProviderInterface
         $package = json_decode($this->package->getPackages() ?? '', true);
         foreach ($package['products'] as $itemPkg) {
             foreach ($this->getParentOrder()->getItems() as $item) {
-                if ($itemPkg['id'] == $item->getProductId()) {
+                if ($itemPkg['id'] == $item->getSku()) {
                     if ($lastSkuPass != $item->getSku()) {
-                        $items[] = [
-                            'name' => $item->getName(),
-                            'unitary_value' => floatval($item->getPrice()),
-                            'quantity' => $itemPkg['quantity'],
-                            'weight' => $this->helperData->getProductWeight($item->getWeight())
-                        ];
+                        $items[] = $this->getPackageItemData($item, $itemPkg['quantity']);
                     }
                 }
                 $lastSkuPass = $item->getSku();
@@ -322,6 +317,21 @@ class DataProvider implements DataProviderInterface
         }
 
         return $items;
+    }
+
+    /**
+     * @param $item
+     * @param $qty
+     * @return array
+     */
+    private function getPackageItemData($item, $qty)
+    {
+        return [
+            'name' => $item->getName(),
+            'unitary_value' => floatval($item->getPrice()),
+            'quantity' => $qty,
+            'weight' => $this->helperData->getProductWeight($item->getWeight())
+        ];
     }
 
     /**
@@ -333,7 +343,7 @@ class DataProvider implements DataProviderInterface
 
         $packages = $this->getPackageData();
 
-        if ($this->shipping->isCorreioService()) {
+        if ($this->shipping->createTagsByVolumes()) {
             $data = $packages['dimensions'];
             $data['weight'] = $packages['weight'];
 
@@ -356,17 +366,13 @@ class DataProvider implements DataProviderInterface
     {
         $packages = $this->getPackageData();
 
-        //Insurance value for correios
-        if ($this->shipping->isCorreioService()) {
-            $insuranceCorreios = 0.0;
-            if (!$this->helperData->alwaysSafe()) {
-                return (float)$insuranceCorreios;
-            }
-
-            $insuranceCorreios = $packages['insurance_value'];
-
-            return (float)$insuranceCorreios;
+        //Insurance value for correios, loggi and J&T
+        if ($this->shipping->createTagsByVolumes()) {
+            return !$this->helperData->alwaysSafe() && $this->shipping->isCorreioService()
+                ? 0.0
+                : (float)$packages['insurance_value'];
         }
+
         $insurance = 0.0;
         foreach ($packages as $item) {
             $insurance += $item['insurance_value'];

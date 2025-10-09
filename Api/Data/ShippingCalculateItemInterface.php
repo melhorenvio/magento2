@@ -8,6 +8,8 @@ namespace MelhorEnvio\Quote\Api\Data;
  */
 interface ShippingCalculateItemInterface
 {
+    const ID = 'id';
+
     const SKU = 'sku';
     const QUANTITY = 'quantity';
     const WEIGHT = 'weight';
